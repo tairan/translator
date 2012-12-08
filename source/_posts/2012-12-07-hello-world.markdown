@@ -3,7 +3,7 @@ layout: post
 title: "Hello World"
 date: 2012-12-07 13:57
 comments: true
-categories: 
+categories: HelloWorld
 ---
 
 #Translator#

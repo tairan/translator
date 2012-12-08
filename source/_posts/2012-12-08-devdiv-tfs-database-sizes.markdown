@@ -6,31 +6,31 @@ comments: true
 categories: TFS
 ---
 
-ÕâÊÇÒ»ÆªÀ´×ÔBrian HarryµÄ²©¿Í£¬½éÉÜÎÄÕÂ·¢±íÊ±(2009)TFSÍÅ¶Ó×Ô¼ºµÄTFSÊı¾İ¿âµÄ×´¿ö¡£
+è¿™æ˜¯ä¸€ç¯‡æ¥è‡ªBrian Harryçš„åšå®¢ï¼Œä»‹ç»æ–‡ç« å‘è¡¨æ—¶(2009)TFSå›¢é˜Ÿè‡ªå·±çš„TFSæ•°æ®åº“çš„çŠ¶å†µã€‚
 
 #DevDiv TFS Database Sizes#
 
-[Ô­ÎÄÁ´½Ó](http://blogs.msdn.com/b/bharry/archive/2009/05/31/devdiv-tfs-database-sizes.aspx)
+[åŸæ–‡é“¾æ¥](http://blogs.msdn.com/b/bharry/archive/2009/05/31/devdiv-tfs-database-sizes.aspx)
 
-> Someone asked me the other day how big to expect the relative sizes of TFS databases to be.  At the time all I had time to say was ¡°Over time TfsVersionControl will dwarf everything else¡±.  This weekend, I finally had a few minutes to sit down and do some analysis.  As with all such things, your mileage will vary.  DevDiv is a VERY heavy version control user and this may be a bit disproportionate from what you¡¯ll see but as a system grows, I expect it will start to look more and more like this.
+> Someone asked me the other day how big to expect the relative sizes of TFS databases to be.  At the time all I had time to say was â€œOver time TfsVersionControl will dwarf everything elseâ€.  This weekend, I finally had a few minutes to sit down and do some analysis.  As with all such things, your mileage will vary.  DevDiv is a VERY heavy version control user and this may be a bit disproportionate from what youâ€™ll see but as a system grows, I expect it will start to look more and more like this.
 
-ÓĞÈËÎÊÎÒTFSÊı¾İ¿â»á¶à´ó£¿ Ò»°ãÎÒ¶¼ÊÇ»Ø´ğ¡°Ëæ×ÅÊ±¼äµÄÍÆÒÆ£¬TfsVersionControl×Ü»áÏÔµÃºÜ×³¹Û"¡£ ÕâÖÜÄ©£¬ÎÒÖÕÓÚÓĞµãÊ±¼ä×øÏÂÀ´¾Í´Ë×öÒ»Ğ©·ÖÎö¡£Ã¿¸öÈËµÄÇé¿ö»áÓĞÒ»Ğ©Çø±ğ¡£DevDivºÍÄã¿´µ½µÄÏµÍ³¿ÉÄÜ»áºÜ²»Ïà³Æ£¬ËüÕæµÄºÜ´ó¡£ÎÒÆÚÍûÄÜ¿´µ½¸ü¶àÏàËÆÖ®´¦¡£
+æœ‰äººé—®æˆ‘TFSæ•°æ®åº“ä¼šå¤šå¤§ï¼Ÿ ä¸€èˆ¬æˆ‘éƒ½æ˜¯å›ç­”â€œéšç€æ—¶é—´çš„æ¨ç§»ï¼ŒTfsVersionControlæ€»ä¼šæ˜¾å¾—å¾ˆå£®è§‚"ã€‚ è¿™å‘¨æœ«ï¼Œæˆ‘ç»ˆäºæœ‰ç‚¹æ—¶é—´åä¸‹æ¥å°±æ­¤åšä¸€äº›åˆ†æã€‚æ¯ä¸ªäººçš„æƒ…å†µä¼šæœ‰ä¸€äº›åŒºåˆ«ã€‚DevDivæ˜¯TFSä¸€ä¸ªå¾ˆå¤§çš„ç”¨æˆ·ï¼Œå¹¶ä¸”å¯èƒ½ä¸ä½ çœ‹åˆ°è¿‡çš„ç³»ç»Ÿå¢é•¿æœ‰äº›ä¸åŒã€‚æˆ‘æœŸæœ›èƒ½çœ‹åˆ°æ›´å¤šå½¼æ­¤çš„ç›¸ä¼¼ä¹‹å¤„ã€‚
 
-> Here¡¯s a pie chart that shows you relative sizes:
+> Hereâ€™s a pie chart that shows you relative sizes:
 
-ÕâÊÇÒ»·ùÊı¾İ¿â´óĞ¡Ïà¹ØµÄ±ıÍ¼
+è¿™æ˜¯ä¸€å¹…æ•°æ®åº“å¤§å°ç›¸å…³çš„é¥¼å›¾
 
 <img src="http://blogs.msdn.com/blogfiles/bharry/WindowsLiveWriter/DevDivTFSDatabaseSizes_BB10/image_thumb_5.png" alt="a pie chart shows you relatvie sizes" />
 
-> And here¡¯s the actual numbers:
+> And hereâ€™s the actual numbers:
 
-ÒÔ¼°Ò»Ğ©ÕæÊµµÄÊı¾İ
+ä»¥åŠä¸€äº›çœŸå®çš„æ•°æ®
 
 <img src="http://blogs.msdn.com/blogfiles/bharry/WindowsLiveWriter/DevDivTFSDatabaseSizes_BB10/image_thumb_6.png" alt="the actual numbers" />
 
-> It¡¯s worth looking at how TfsVersionControl breaks down.  Note this won¡¯t match your schema exactly because it is a hybrid TFS 2008/TFS 2010 schema but what I show you will be close.
+> Itâ€™s worth looking at how TfsVersionControl breaks down.  Note this wonâ€™t match your schema exactly because it is a hybrid TFS 2008/TFS 2010 schema but what I show you will be close.
 
-TfsVersionControlºÜÖµµÃÈ¥·ÖÎöÒ»ÏÂ¡£ ÌáĞÑÕâ¸öºÍÄãÊµ¼ÊµÄÊı¾İ¿âschema²»Ò»ÖÂ£¬ÒòÎªËûÊÇÒ»¸öTFS 2008/TFS 2010µÄschema»ìºÏÌå£¬µ«ÊÇËûºÜ½Ó½üÎÒÏëÒªËµµÄÒâË¼¡£
+TfsVersionControlå¾ˆå€¼å¾—å»åˆ†æä¸€ä¸‹ã€‚ æé†’è¿™ä¸ªå’Œä½ å®é™…çš„æ•°æ®åº“schemaä¸ä¸€è‡´ï¼Œå› ä¸ºä»–æ˜¯ä¸€ä¸ªTFS 2008/TFS 2010çš„schemaæ··åˆä½“ï¼Œä½†æ˜¯ä»–å¾ˆæ¥è¿‘æˆ‘æƒ³è¦è¯´çš„æ„æ€ã€‚
 
 <img src="http://blogs.msdn.com/blogfiles/bharry/WindowsLiveWriter/DevDivTFSDatabaseSizes_BB10/image_thumb_3.png" alt="TfsVersionControl Database">
 
