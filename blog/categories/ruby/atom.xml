@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Translate somethings]]></title>
-  <link href="http://tairan.github.com/translator/atom.xml" rel="self"/>
+  <title><![CDATA[Category: Ruby | Translate somethings]]></title>
+  <link href="http://tairan.github.com/translator/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://tairan.github.com/translator/"/>
   <updated>2012-12-15T22:12:41+08:00</updated>
   <id>http://tairan.github.com/translator/</id>
@@ -24,7 +24,7 @@
 
 <blockquote><blockquote><p>How Emacs changed my life</p>
 
-<p>Yukihiro &#8220;Matz&#8221; Matsumoto
+<p>Yukihiro "Matz" Matsumoto
 @yukihiro_matz</p></blockquote></blockquote>
 
 <p>Emacs 如何改变了我的生活</p>
@@ -125,7 +125,7 @@
 
 <p>Emacs 成为了我的一部分</p>
 
-<blockquote><blockquote><p>If I didn&#8217;t like anything in Emacs, I could change it</p></blockquote></blockquote>
+<blockquote><blockquote><p>If I didn't like anything in Emacs, I could change it</p></blockquote></blockquote>
 
 <p>如果我不喜欢Emacs的哪个部分，我可以修改它</p>
 
@@ -145,7 +145,7 @@
 
 <p>我可以在编辑的时候不用考虑各种组合键绑定</p>
 
-<blockquote><blockquote><p>I didn&#8217;t want to write anything without Emacs</p></blockquote></blockquote>
+<blockquote><blockquote><p>I didn't want to write anything without Emacs</p></blockquote></blockquote>
 
 <p>离开了Emacs我什么都不想写</p>
 
@@ -157,9 +157,9 @@
 
 <p>于是我写了自己的邮件客户端</p>
 
-<blockquote><blockquote><p>named &#8220;cmail&#8221;</p></blockquote></blockquote>
+<blockquote><blockquote><p>named "cmail"</p></blockquote></blockquote>
 
-<p>我给他命名叫 &#8220;cmail&#8221;</p>
+<p>我给他命名叫 "cmail"</p>
 
 <blockquote><blockquote><p>in Emacs lisp</p>
 
@@ -222,11 +222,11 @@
 
 <blockquote><blockquote><p>I somehow succeeded to implement auto-indentation</p>
 
-<p>for a languge with &#8220;end&#8221; delimiters</p></blockquote></blockquote>
+<p>for a languge with "end" delimiters</p></blockquote></blockquote>
 
-<p>我成功的实现了一个可以基于 &#8216;end&#8217; 结尾的自动缩进功能</p>
+<p>我成功的实现了一个可以基于 'end' 结尾的自动缩进功能</p>
 
-<blockquote><blockquote><p>If I couldn&#8217;t make ruby-model to work</p></blockquote></blockquote>
+<blockquote><blockquote><p>If I couldn't make ruby-model to work</p></blockquote></blockquote>
 
 <p>如果我不能让 ruby-model 工作起来</p>
 
@@ -278,56 +278,6 @@ forever</li>
 <blockquote><blockquote><p>Thank you</p></blockquote></blockquote>
 
 <p>谢谢</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[DevDiv TFS Database Sizes]]></title>
-    <link href="http://tairan.github.com/translator/blog/2012/12/08/devdiv-tfs-database-sizes/"/>
-    <updated>2012-12-08T13:53:00+08:00</updated>
-    <id>http://tairan.github.com/translator/blog/2012/12/08/devdiv-tfs-database-sizes</id>
-    <content type="html"><![CDATA[<p>这是一篇来自Brian Harry的博客，介绍文章发表时(2009)TFS团队自己的TFS数据库的状况。</p>
-
-<p><a href="http://blogs.msdn.com/b/bharry/archive/2009/05/31/devdiv-tfs-database-sizes.aspx">原文链接</a></p>
-
-<blockquote><p>Someone asked me the other day how big to expect the relative sizes of TFS databases to be.  At the time all I had time to say was “Over time TfsVersionControl will dwarf everything else”.  This weekend, I finally had a few minutes to sit down and do some analysis.  As with all such things, your mileage will vary.  DevDiv is a VERY heavy version control user and this may be a bit disproportionate from what you’ll see but as a system grows, I expect it will start to look more and more like this.</p></blockquote>
-
-<p>有人问我TFS数据库会多大？ 一般我都是回答“随着时间的推移，TfsVersionControl总会显得很壮观&#8221;。 这周末，我终于有点时间坐下来就此做一些分析。每个人的情况会有一些区别。DevDiv是TFS一个很大的用户，并且可能与你看到过的系统增长有些不同。我期望能看到更多彼此的相似之处。</p>
-
-<blockquote><p>Here’s a pie chart that shows you relative sizes:</p></blockquote>
-
-<p>这是一幅数据库大小相关的饼图</p>
-
-<p><img src="http://blogs.msdn.com/blogfiles/bharry/WindowsLiveWriter/DevDivTFSDatabaseSizes_BB10/image_thumb_5.png" alt="a pie chart shows you relatvie sizes" /></p>
-
-<blockquote><p>And here’s the actual numbers:</p></blockquote>
-
-<p>以及一些真实的数据</p>
-
-<p><img src="http://blogs.msdn.com/blogfiles/bharry/WindowsLiveWriter/DevDivTFSDatabaseSizes_BB10/image_thumb_6.png" alt="the actual numbers" /></p>
-
-<blockquote><p>It’s worth looking at how TfsVersionControl breaks down.  Note this won’t match your schema exactly because it is a hybrid TFS 2008/TFS 2010 schema but what I show you will be close.</p></blockquote>
-
-<p>TfsVersionControl很值得去分析一下。 提醒这个和你实际的数据库schema不一致，因为他是一个TFS 2008/TFS 2010的schema混合体，但是他很接近我想要说的意思。</p>
-
-<p><img src="http://blogs.msdn.com/blogfiles/bharry/WindowsLiveWriter/DevDivTFSDatabaseSizes_BB10/image_thumb_3.png" alt="TfsVersionControl Database"></p>
-
-<p><img src="http://blogs.msdn.com/blogfiles/bharry/WindowsLiveWriter/DevDivTFSDatabaseSizes_BB10/image_thumb_4.png" alt="the table's numbers" /></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Hello World]]></title>
-    <link href="http://tairan.github.com/translator/blog/2012/12/07/hello-world/"/>
-    <updated>2012-12-07T13:57:00+08:00</updated>
-    <id>http://tairan.github.com/translator/blog/2012/12/07/hello-world</id>
-    <content type="html"><![CDATA[<h1>Translator</h1>
-
-<p><strong>Practice, Practice, Practice</strong></p>
-
-<p>For learning English, I try to translate some articles which are my interesting realm, mostly are related to technology, startup, business etc.</p>
-
-<p>if you also like to translate somethings please join me, welcome :)</p>
 ]]></content>
   </entry>
   
