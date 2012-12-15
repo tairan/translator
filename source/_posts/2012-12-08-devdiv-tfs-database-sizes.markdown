@@ -8,8 +8,6 @@ categories: TFS
 
 这是一篇来自Brian Harry的博客，介绍文章发表时(2009)TFS团队自己的TFS数据库的状况。
 
-#DevDiv TFS Database Sizes#
-
 [原文链接](http://blogs.msdn.com/b/bharry/archive/2009/05/31/devdiv-tfs-database-sizes.aspx)
 
 > Someone asked me the other day how big to expect the relative sizes of TFS databases to be.  At the time all I had time to say was “Over time TfsVersionControl will dwarf everything else”.  This weekend, I finally had a few minutes to sit down and do some analysis.  As with all such things, your mileage will vary.  DevDiv is a VERY heavy version control user and this may be a bit disproportionate from what you’ll see but as a system grows, I expect it will start to look more and more like this.
