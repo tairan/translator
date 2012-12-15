@@ -23,7 +23,7 @@ Emacs 如何改变了我的生活
 
 我开始了编程
 
-![sharp](https://raw.github.com/tairan/translator/master/assets/images/2012-12-15/sharp.png)
+![sharp](https://raw.github.com/tairan/translator/master/source/assets/images/2012-12-15/sharp.png)
 
 >> BASIC
 
