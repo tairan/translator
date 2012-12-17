@@ -87,7 +87,7 @@ Emacs 是我第一个Lisp直译器
 
 >> Calling convention between Lisp and C
 
-在Lisp和C之间相互调用
+在Lisp和C之间相互转换调用
 
 >> I really understood how Lisp work
 
@@ -95,7 +95,7 @@ Emacs 是我第一个Lisp直译器
 
 >> I was fascinated by Lisp objects
 
-Lisp 的对象让我着迷
+我沉迷于Lisp的对象
 
 >> Lisp objects implemented by C
 
@@ -173,7 +173,7 @@ Emacs让我意识到作为一名程序员可以改变一切
 
 >> It uses similar object model to Lisp
 
-受EMacs实现的影响，Intergers are coded in tagged pointers **Could someone help me to translate it**
+受Emacs实现的影响，Intergers are coded in tagged pointers **Could someone help me to translate it**
 
 它使用了简单的标记和清扫垃圾收集
 
