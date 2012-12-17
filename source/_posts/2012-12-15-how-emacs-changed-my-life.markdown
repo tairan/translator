@@ -173,7 +173,7 @@ Emacs让我意识到作为一名程序员可以改变一切
 
 >> It uses similar object model to Lisp
 
-受Emacs实现的影响，Intergers are coded in tagged pointers **Could someone help me to translate it**
+受Emacs实现的影响，Intergers are coded in tagged pointers (**Could someone help me to translate it?**)
 
 它使用了简单的标记和清扫垃圾收集
 
@@ -246,7 +246,7 @@ Ruby 的语法也许就要改变的像C一样或者类似其他的脚本语言
 
 总结
 
-1. Emacs 告诉我自由的为软件
+1. Emacs 告诉我软件的自由
 2. Emasc 告诉我如何阅读源代码
 3. Emacs 告诉我Lisp的强大之处
 4. Emacs 告诉我如何实现一个语言的核心
