@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Translate somethings]]></title>
-  <link href="http://tairan.github.com/translator/atom.xml" rel="self"/>
+  <title><![CDATA[Category: Rake | Translate somethings]]></title>
+  <link href="http://tairan.github.com/translator/blog/categories/rake/atom.xml" rel="self"/>
   <link href="http://tairan.github.com/translator/"/>
   <updated>2012-12-22T21:08:14+08:00</updated>
   <id>http://tairan.github.com/translator/</id>
@@ -85,7 +85,9 @@
 
 <p>比如我有一个非常简单的C程序，有以下一些文件</p>
 
-<h1>include &#8220;greet.h&#8221;</h1>
+<p></p>
+
+<h1>include "greet.h"</h1>
 
 <p>int main() {</p>
 
@@ -93,9 +95,14 @@
 return 0;
 </code></pre>
 
-<p>}</p>
+<p>}
+</p>
 
-<p>extern void greet(const char * who);</p>
+<p>
+extern void greet(const char * who);
+</p>
+
+<p></p>
 
 <h1>include &lt;stdio.h></h1>
 
@@ -104,7 +111,8 @@ return 0;
 <pre><code>printf ("Hello, %s\n", who);
 </code></pre>
 
-<p>}</p>
+<p>}
+</p>
 
 <p>(Yes, it really is the old standard “Hello, World” program. I did say we were starting with the basics!)</p>
 
@@ -114,6 +122,8 @@ return 0;
 
 <p>编译并运行这些文件， 使用下面的一个简单的shell脚本</p>
 
+<p></p>
+
 <h1>include &lt;stdio.h></h1>
 
 <p>void greet (const char * who) {</p>
@@ -121,7 +131,8 @@ return 0;
 <pre><code>printf ("Hello, %s\n", who);
 </code></pre>
 
-<p>}</p>
+<p>}
+</p>
 
 <p>For those not familiar with compiling C code, the cc command is the C compiler. It generates an output file (specified by the -o flag) from the source files listed on the command line.</p>
 
@@ -131,9 +142,11 @@ return 0;
 
 <p>运行它之后我们会得到下面这些结果</p>
 
-<p>$ build.sh
+<p>
+$ build.sh
 $ ./hello
-Hello, World</p>
+Hello, World
+</p>
 
 <p><strong>Building C Programs</strong></p>
 
@@ -171,7 +184,9 @@ Hello, World</p>
 
 <p>Rakefile 片段</p>
 
-<p>file &#8220;main.o&#8221; => [&#8220;main.c&#8221;, &#8220;greet.h&#8221;]</p>
+<p>
+file "main.o" => ["main.c", "greet.h"]
+</p>
 
 <p>The rake dependency declaration is just regular Ruby code. We take advantage of the fact that we can construct hash arguments on the fly, and that Ruby doesn’t require parenthesis around the method arguement to create a file task declaration that reads very naturally to the humans reading the rake file. But its still just Ruby code.</p>
 
@@ -183,7 +198,9 @@ Hello, World</p>
 
 <p><strong>Rakefile Fragment</strong></p>
 
-<p>file &#8220;greet.o&#8221; => [&#8220;greet.c&#8221;]</p>
+<p>
+file "greet.o" => ["greet.c"]
+</p>
 
 <p>greet.c does include stdio.h, but since that is a system header file and not subject to change (often), we can leave itout of the dependency list.</p>
 
@@ -195,7 +212,9 @@ Hello, World</p>
 
 <p><strong>Rakefile Fragment</strong></p>
 
-<p>file &#8220;hello&#8221; => [&#8220;main.o&#8221;, &#8220;greet.o&#8221;]</p>
+<p>
+file "hello" => ["main.o", "greet.o"]
+</p>
 
 <p>Notice that we only have to declare the direct dependencies of hello. Yes, hello depends on main.o which in turn depends on main.c. But the .c files are not directly used in building hello, so they can safely be omitted from the list.</p>
 
@@ -217,20 +236,24 @@ Hello, World</p>
 
 <p><strong>Rakefile</strong></p>
 
-<p> file &#8216;main.o&#8217; => [&#8220;main.c&#8221;, &#8220;greet.h&#8221;] do</p>
+<p></p>
+
+<p> file 'main.o' => ["main.c", "greet.h"] do</p>
 
 <pre><code>sh "cc -c -o main.o main.c"
 </code></pre>
 
 <p> end</p>
 
-<p> file &#8216;greet.o&#8217; => [&#8216;greet.c&#8217;] do
-   sh &#8220;cc -c -o greet.o greet.c&#8221;
+<p> file 'greet.o' => ['greet.c'] do
+   sh "cc -c -o greet.o greet.c"
  end</p>
 
-<p>file &#8220;hello&#8221; => [&#8220;main.o&#8221;, &#8220;greet.o&#8221;] do
-  sh &#8220;cc -o hello main.o greet.o&#8221;
+<p>file "hello" => ["main.o", "greet.o"] do
+  sh "cc -o hello main.o greet.o"
 end</p>
+
+<p></p>
 
 <p><strong>Trying it out</strong></p>
 
@@ -240,11 +263,13 @@ end</p>
 
 <p><strong>Output</strong></p>
 
-<p>$ rake hello
+<p>
+$ rake hello
   (in /home/jim/pgm/rake/intro)
   cc -c -o main.o main.c
   cc -c -o greet.o greet.c
-  cc -o hello main.o greet.o</p>
+  cc -o hello main.o greet.o
+</p>
 
 <p>The command line rake hello instructs rake to look through its list of tasks and find one called “hello”. It then checks hello’s dependencies and builds them if required. Finally, when everything is ready it builds hello by executing the C compiler command.</p>
 
@@ -256,8 +281,10 @@ end</p>
 
 <p><strong>Output</strong></p>
 
-<p>$ ./hello
-Hello, World</p>
+<p>
+$ ./hello
+Hello, World
+</p>
 
 <p>Success!</p>
 
@@ -269,14 +296,16 @@ Hello, World</p>
 
 <p><strong>Output</strong></p>
 
-<p>$ emacs greet.c
+<p>
+$ emacs greet.c
 $ rake hello
 (in /home/jim/pgm/rake/intro)
 cc -c -o greet.o greet.c
 cc -o hello main.o greet.o
 $
 $ ./hello
-Hi, World</p>
+Hi, World
+</p>
 
 <p>Notice that it recompiles greet.c making a new greet.o. And then it needs to relink hello with the new greet.o. Then it is done. There is no need to recompile main.c since it never changed.</p>
 
@@ -288,9 +317,11 @@ Hi, World</p>
 
 <p><strong>Output</strong></p>
 
-<p>$ rake hello
+<p>
+$ rake hello
 (in /home/jim/pgm/rake/intro)
-$</p>
+$
+</p>
 
 <p>That’s right … nothing. Everything is up to date with its dependencies, so there is no work for Rake to do.</p>
 
@@ -313,324 +344,6 @@ $</p>
 <p>We notice that even our small example has a bit of duplication in it. We have specify how to compile both C file separately, even though the only difference is the files that are used. The next installment will look at fixing that problem as well as introduce non-file based tasks, rules and file lists.</p>
 
 <p>我们依然会用一个小的示例。我们会指定如何独立地编译C文件，即使是使用上的区别。下面问会解决一些文件无关的任务规则。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[How Emacs changed my life]]></title>
-    <link href="http://tairan.github.com/translator/blog/2012/12/15/how-emacs-changed-my-life/"/>
-    <updated>2012-12-15T19:37:00+08:00</updated>
-    <id>http://tairan.github.com/translator/blog/2012/12/15/how-emacs-changed-my-life</id>
-    <content type="html"><![CDATA[<p>这篇文章是Ruby之父松本行弘(Matz)先生的演讲稿，介绍了Emacs是如何走进并改变他的生活以及为他开发Ruby提供的各种帮助。</p>
-
-<p><a href="http://www.slideshare.net/yukihiro_matz/how-emacs-changed-my-life">原文链接</a> <em>Fuck GFW first</em></p>
-
-<blockquote><blockquote><p>How Emacs changed my life</p>
-
-<p>Yukihiro &#8220;Matz&#8221; Matsumoto
-@yukihiro_matz</p></blockquote></blockquote>
-
-<p>Emacs 如何改变了我的生活</p>
-
-<blockquote><blockquote><p>1980</p>
-
-<p>I started programming</p></blockquote></blockquote>
-
-<p>我开始了编程</p>
-
-<p><img src="https://raw.github.com/tairan/translator/master/source/assets/images/2012-12-15/sharp.png" alt="sharp" /></p>
-
-<blockquote><blockquote><p>BASIC</p>
-
-<p>400 steps</p></blockquote></blockquote>
-
-<p>在那个上面用BASIC写了400多条操作</p>
-
-<blockquote><blockquote><p>1988</p>
-
-<p>I met Emacs</p>
-
-<p>On Sun-3</p></blockquote></blockquote>
-
-<p>1988年，在Sun-3上面，我接触了 Emacs</p>
-
-<blockquote><blockquote><p>Shared by 200 undergraduates</p></blockquote></blockquote>
-
-<p>那个机器由200个本科生共享</p>
-
-<blockquote><blockquote><p>I tried Emacs</p>
-
-<p>But I never used</p></blockquote></blockquote>
-
-<p>我尝试了一下Emacs但是并没有使用它</p>
-
-<blockquote><blockquote><p>Emacs was prohibited</p></blockquote></blockquote>
-
-<p>Emacs 是被限制的</p>
-
-<blockquote><blockquote><p>It consumed too much precious memory</p></blockquote></blockquote>
-
-<p>它需要太多的宝贵的内存</p>
-
-<blockquote><blockquote><p>We are free to download free software</p>
-
-<p>We are free to read the source code</p></blockquote></blockquote>
-
-<p>我们可以自由的下载免费自由的软件也可以自由的阅读源代码</p>
-
-<blockquote><blockquote><p>I downloaded Emacs source code</p>
-
-<p>and investigated</p></blockquote></blockquote>
-
-<p>我下载了Emacs源码并研究它</p>
-
-<blockquote><blockquote><p>Emacs was my first Lisp interpreter</p></blockquote></blockquote>
-
-<p>Emacs 是我第一个Lisp直译器</p>
-
-<blockquote><blockquote><p>I learned a lot about language implementation from Emacs</p></blockquote></blockquote>
-
-<p>我从Emacs那里学到了很多关于语言实现的东西</p>
-
-<blockquote><blockquote><p>Embadding integers in pointers</p></blockquote></blockquote>
-
-<p>在指针里嵌入整数</p>
-
-<blockquote><blockquote><p>Mark and sweep garbage collection</p></blockquote></blockquote>
-
-<p>标记和清扫垃圾收集</p>
-
-<blockquote><blockquote><p>Calling convention between Lisp and C</p></blockquote></blockquote>
-
-<p>在Lisp和C之间相互转换调用</p>
-
-<blockquote><blockquote><p>I really understood how Lisp work</p></blockquote></blockquote>
-
-<p>我确实地了解了Lisp是如何工作的</p>
-
-<blockquote><blockquote><p>I was fascinated by Lisp objects</p></blockquote></blockquote>
-
-<p>我沉迷于Lisp的对象</p>
-
-<blockquote><blockquote><p>Lisp objects implemented by C</p></blockquote></blockquote>
-
-<p>Lisp 对象是由C实现的</p>
-
-<blockquote><blockquote><p>Then I got a Sparc Station</p></blockquote></blockquote>
-
-<p>之后我得到一台Sparc工作站</p>
-
-<blockquote><blockquote><p>I started to use Emacs</p></blockquote></blockquote>
-
-<p>我开始使用Emacs了</p>
-
-<blockquote><blockquote><p>Emacs become part of me</p></blockquote></blockquote>
-
-<p>Emacs 成为了我的一部分</p>
-
-<blockquote><blockquote><p>If I didn&#8217;t like anything in Emacs, I could change it</p></blockquote></blockquote>
-
-<p>如果我不喜欢Emacs的哪个部分，我可以修改它</p>
-
-<blockquote><blockquote><p>Emacs is totally configurable</p></blockquote></blockquote>
-
-<p>Emacs是完全可配置的</p>
-
-<blockquote><blockquote><p>Emacs made me realize anything can be changed by a programmer</p></blockquote></blockquote>
-
-<p>Emacs让我意识到作为一名程序员可以改变一切</p>
-
-<blockquote><blockquote><p>It is total freedom</p></blockquote></blockquote>
-
-<p>它完全是自由的</p>
-
-<blockquote><blockquote><p>I could edit without thinking key bindding</p></blockquote></blockquote>
-
-<p>我可以在编辑的时候不用考虑各种组合键绑定</p>
-
-<blockquote><blockquote><p>I didn&#8217;t want to write anything without Emacs</p></blockquote></blockquote>
-
-<p>离开了Emacs我什么都不想写</p>
-
-<blockquote><blockquote><p>Programs, Documents and Mails</p></blockquote></blockquote>
-
-<p>程序，文档以及邮件等</p>
-
-<blockquote><blockquote><p>so I wrote my own mail client</p></blockquote></blockquote>
-
-<p>于是我写了自己的邮件客户端</p>
-
-<blockquote><blockquote><p>named &#8220;cmail&#8221;</p></blockquote></blockquote>
-
-<p>我给他命名叫 &#8220;cmail&#8221;</p>
-
-<blockquote><blockquote><p>in Emacs lisp</p>
-
-<p>It was my first non-trivial (Emacs) Lisp program</p></blockquote></blockquote>
-
-<p>在 Emacs lisp 中，它是我第一个Lisp程序，意味深长。</p>
-
-<blockquote><blockquote><p>I used it everyday</p></blockquote></blockquote>
-
-<p>我每天都在使用它</p>
-
-<blockquote><blockquote><p>1993</p>
-
-<p>I started Ruby development</p></blockquote></blockquote>
-
-<p>1993， 我开始开发Ruby</p>
-
-<blockquote><blockquote><p>with influence from Emacs implementation</p>
-
-<p>Integers are coded in tagged pointers</p>
-
-<p>It uses simple marked sweep garbage collection</p>
-
-<p>It uses similar object model to Lisp</p></blockquote></blockquote>
-
-<p>受Emacs实现的影响，Intergers are coded in tagged pointers (<strong>Could someone help me to translate it?</strong>)</p>
-
-<p>它使用了简单的标记和清扫垃圾收集</p>
-
-<p>它使用了和lisp相似的对象模型</p>
-
-<blockquote><blockquote><p>Then I put Smalltalk-like OO system on top</p></blockquote></blockquote>
-
-<p>之后我在它上层封装了类似 smalltalk 的面向对象系统</p>
-
-<blockquote><blockquote><p>For syntax, I wanted Algol/Ada/Eiffel like one</p></blockquote></blockquote>
-
-<p>语法方面，从Algol/Ada/Eiffel 吸收了一点</p>
-
-<blockquote><blockquote><p>But as an Emacs addict, I needed a language model
-作为一个对Emacs重度依赖的人来说，我需要一个language-model</p>
-
-<p>auto-indent was a must</p></blockquote></blockquote>
-
-<p>自动缩进是必须的</p>
-
-<blockquote><blockquote><p>Back to 1993, there was no auto-indenting language mode for a language with such syntax</p></blockquote></blockquote>
-
-<p>回到1993， 还没有一个可以自动缩进的 language-mode 为这样的语法</p>
-
-<blockquote><blockquote><p>So I tried to write experimental ruby-model.el</p></blockquote></blockquote>
-
-<p>所以，我试着写一个 ruby-model.el</p>
-
-<blockquote><blockquote><p>fighting with emacs lisp and regular expression,</p>
-
-<p>for almost whole week</p></blockquote></blockquote>
-
-<p>差不多和emacs lisp以及正则表达式奋战了整整一周</p>
-
-<blockquote><blockquote><p>I somehow succeeded to implement auto-indentation</p>
-
-<p>for a languge with &#8220;end&#8221; delimiters</p></blockquote></blockquote>
-
-<p>我成功的实现了一个可以基于 &#8216;end&#8217; 结尾的自动缩进功能</p>
-
-<blockquote><blockquote><p>If I couldn&#8217;t make ruby-model to work</p></blockquote></blockquote>
-
-<p>如果我不能让 ruby-model 工作起来</p>
-
-<blockquote><blockquote><p>The syntax of Ruby would have changed</p>
-
-<p>to more C-like one</p>
-
-<p>too similar to other scripting languages</p></blockquote></blockquote>
-
-<p>Ruby 的语法也许就要改变的像C一样或者类似其他的脚本语言</p>
-
-<blockquote><blockquote><p>as a result, Ruby would not have gained current popularity</p></blockquote></blockquote>
-
-<p>那样的话，Ruby 也许就不会像现在这样流行了</p>
-
-<blockquote><blockquote><p>Summary</p>
-
-<ol>
-<li>Emacs taught me freedom for software</li>
-<li>Emacs taught me how to read source code</li>
-<li>Emacs taught me power of Lisp</li>
-<li>Emacs taught me how to implement a language core</li>
-<li>Emacs taught me how to implement a garbage collector</li>
-<li>Emacs helped me to code and debug</li>
-<li>Emacs helped me to write and edit text/mails/doucments</li>
-<li>Emacs helped me to be a effective programmer</li>
-<li>Emacs made me a hacker</li>
-<li>Emacs has changed my life
-forever</li>
-</ol>
-</blockquote></blockquote>
-
-<p>总结</p>
-
-<ol>
-<li>Emacs 告诉我软件的自由</li>
-<li>Emasc 告诉我如何阅读源代码</li>
-<li>Emacs 告诉我Lisp的强大之处</li>
-<li>Emacs 告诉我如何实现一个语言的核心</li>
-<li>Emacs 告诉我如何实现一个垃圾收集器</li>
-<li>Emacs 帮助我去写代码和调试代码</li>
-<li>Emacs 帮助我撰写编辑各种文字，邮件和文档</li>
-<li>Emacs 帮助我成为一名高效的程序员</li>
-<li>Emasc 塑造我成为一名黑客</li>
-<li>Emacs 永远的改变了我的生活</li>
-</ol>
-
-
-<blockquote><blockquote><p>Thank you</p></blockquote></blockquote>
-
-<p>谢谢</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[DevDiv TFS Database Sizes]]></title>
-    <link href="http://tairan.github.com/translator/blog/2012/12/08/devdiv-tfs-database-sizes/"/>
-    <updated>2012-12-08T13:53:00+08:00</updated>
-    <id>http://tairan.github.com/translator/blog/2012/12/08/devdiv-tfs-database-sizes</id>
-    <content type="html"><![CDATA[<p>这是一篇来自Brian Harry的博客，介绍文章发表时(2009)TFS团队自己的TFS数据库的状况。</p>
-
-<p><a href="http://blogs.msdn.com/b/bharry/archive/2009/05/31/devdiv-tfs-database-sizes.aspx">原文链接</a></p>
-
-<blockquote><p>Someone asked me the other day how big to expect the relative sizes of TFS databases to be.  At the time all I had time to say was “Over time TfsVersionControl will dwarf everything else”.  This weekend, I finally had a few minutes to sit down and do some analysis.  As with all such things, your mileage will vary.  DevDiv is a VERY heavy version control user and this may be a bit disproportionate from what you’ll see but as a system grows, I expect it will start to look more and more like this.</p></blockquote>
-
-<p>有人问我TFS数据库会多大？ 一般我都是回答“随着时间的推移，TfsVersionControl总会显得很壮观&#8221;。 这周末，我终于有点时间坐下来就此做一些分析。每个人的情况会有一些区别。DevDiv是TFS一个很大的用户，并且可能与你看到过的系统增长有些不同。我期望能看到更多彼此的相似之处。</p>
-
-<blockquote><p>Here’s a pie chart that shows you relative sizes:</p></blockquote>
-
-<p>这是一幅数据库大小相关的饼图</p>
-
-<p><img src="http://blogs.msdn.com/blogfiles/bharry/WindowsLiveWriter/DevDivTFSDatabaseSizes_BB10/image_thumb_5.png" alt="a pie chart shows you relatvie sizes" /></p>
-
-<blockquote><p>And here’s the actual numbers:</p></blockquote>
-
-<p>以及一些真实的数据</p>
-
-<p><img src="http://blogs.msdn.com/blogfiles/bharry/WindowsLiveWriter/DevDivTFSDatabaseSizes_BB10/image_thumb_6.png" alt="the actual numbers" /></p>
-
-<blockquote><p>It’s worth looking at how TfsVersionControl breaks down.  Note this won’t match your schema exactly because it is a hybrid TFS 2008/TFS 2010 schema but what I show you will be close.</p></blockquote>
-
-<p>TfsVersionControl很值得去分析一下。 提醒这个和你实际的数据库schema不一致，因为他是一个TFS 2008/TFS 2010的schema混合体，但是他很接近我想要说的意思。</p>
-
-<p><img src="http://blogs.msdn.com/blogfiles/bharry/WindowsLiveWriter/DevDivTFSDatabaseSizes_BB10/image_thumb_3.png" alt="TfsVersionControl Database"></p>
-
-<p><img src="http://blogs.msdn.com/blogfiles/bharry/WindowsLiveWriter/DevDivTFSDatabaseSizes_BB10/image_thumb_4.png" alt="the table's numbers" /></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Hello World]]></title>
-    <link href="http://tairan.github.com/translator/blog/2012/12/07/hello-world/"/>
-    <updated>2012-12-07T13:57:00+08:00</updated>
-    <id>http://tairan.github.com/translator/blog/2012/12/07/hello-world</id>
-    <content type="html"><![CDATA[<h1>Translator</h1>
-
-<p><strong>Practice, Practice, Practice</strong></p>
-
-<p>For learning English, I try to translate some articles which are my interesting realm, mostly are related to technology, startup, business etc.</p>
-
-<p>if you also like to translate somethings please join me, welcome :)</p>
 ]]></content>
   </entry>
   
