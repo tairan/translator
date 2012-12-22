@@ -9,7 +9,7 @@
   <meta name="author" content="Tairan Wang">
 
   
-  <meta name="description" content="Rake Tutorial Rake Tutorial Rake is a build tool, written in Ruby, using Ruby as a build language. Rake is similar to make in scope and purpose. Rake &hellip;">
+  <meta name="description" content="Rake Tutorial Rake 指南 Rake is a build tool, written in Ruby, using Ruby as a build language. Rake is similar to make in scope and purpose. Rake a &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -107,7 +107,7 @@
 
   <div class="entry-content"><p><a href="http://docs.rubyrake.org/tutorial/index.html">Rake Tutorial</a></p>
 
-<h2>Rake Tutorial</h2>
+<h2>Rake 指南</h2>
 
 <p>Rake is a build tool, written in Ruby, using Ruby as a build language. Rake is similar to make in scope and purpose. Rake a simple ruby build program with capabilities similar to make.</p>
 
@@ -149,10 +149,9 @@
 
 <p>收到一些EMail</p>
 
-<pre><code>I have just started using the excellent Rake tool (thanks, Jim!) and I am at a bit of a loss on how to proceed. I am attempting to  create unit test for some C++ code I am creating, [...]
+<blockquote><blockquote><p>I have just started using the excellent Rake tool (thanks, Jim!) and I am at a bit of a loss on how to proceed. I am attempting to   create unit test for some C++ code I am creating, [&#8230;]</p>
 
-我正好开始使用Rake工具(感谢Jim), 我花费很多时间去处理。我去创建我为C++代码创建unite test，创建...
-</code></pre>
+<p>我正好开始使用Rake工具(感谢Jim), 我花费很多时间去处理。我去创建我为C++代码创建unite test，创建&#8230;</p></blockquote></blockquote>
 
 <p>Several people recently have made similar comments, they really like rake, but have had trouble getting started. Although the Rake documentation is fairly complete, it really does assume you are familiar with other build tools such as ant and make. It is not really material for the newbie.</p>
 
@@ -172,26 +171,23 @@
 
 <p>比如我有一个非常简单的C程序，有以下一些文件</p>
 
-<h1>include &#8220;greet.h&#8221;</h1>
+<pre><code>#include "greet.h"
+int main() {
+    greet ("World");
+    return 0;
+}
 
-<p>int main() {</p>
 
-<pre><code>greet ("World");
-return 0;
+
+extern void greet(const char * who);
+
+
+
+#include &lt;stdio.h&gt;
+void greet (const char * who) {
+    printf ("Hello, %s\n", who);
+}
 </code></pre>
-
-<p>}</p>
-
-<p>extern void greet(const char * who);</p>
-
-<h1>include &lt;stdio.h></h1>
-
-<p>void greet (const char * who) {</p>
-
-<pre><code>printf ("Hello, %s\n", who);
-</code></pre>
-
-<p>}</p>
 
 <p>(Yes, it really is the old standard “Hello, World” program. I did say we were starting with the basics!)</p>
 
@@ -201,14 +197,11 @@ return 0;
 
 <p>编译并运行这些文件， 使用下面的一个简单的shell脚本</p>
 
-<h1>include &lt;stdio.h></h1>
-
-<p>void greet (const char * who) {</p>
-
-<pre><code>printf ("Hello, %s\n", who);
+<pre><code>#include &lt;stdio.h&gt;
+void greet (const char * who) {
+    printf ("Hello, %s\n", who);
+}
 </code></pre>
-
-<p>}</p>
 
 <p>For those not familiar with compiling C code, the cc command is the C compiler. It generates an output file (specified by the -o flag) from the source files listed on the command line.</p>
 
@@ -218,9 +211,10 @@ return 0;
 
 <p>运行它之后我们会得到下面这些结果</p>
 
-<p>$ build.sh
+<pre><code>$ build.sh
 $ ./hello
-Hello, World</p>
+Hello, World
+</code></pre>
 
 <p><strong>Building C Programs</strong></p>
 
@@ -229,6 +223,8 @@ Hello, World</p>
 <p>编译C程序实际上有两步过程。首先你编译所有的源代码文件到对象文章中。然后你再link这些对象文件去创建一个可执行文件。</p>
 
 <p>The following figure illustrates the progression from source files to object files to executable program.</p>
+
+<p>接下来的流程是从源码到对象文件再到可执行程序。</p>
 
 <p>Our program is so small that there is little benefit in doing more than the three line build script above. However, as projects grow, there are more and more source files and object files to manage. Recompiling everything for a simple one line change in a single source file gets old quickly. It is much more efficient to just recompile the few files that change and then relink.</p>
 
@@ -258,7 +254,8 @@ Hello, World</p>
 
 <p>Rakefile 片段</p>
 
-<p>file &#8220;main.o&#8221; => [&#8220;main.c&#8221;, &#8220;greet.h&#8221;]</p>
+<pre><code>file "main.o" =&gt; ["main.c", "greet.h"]
+</code></pre>
 
 <p>The rake dependency declaration is just regular Ruby code. We take advantage of the fact that we can construct hash arguments on the fly, and that Ruby doesn’t require parenthesis around the method arguement to create a file task declaration that reads very naturally to the humans reading the rake file. But its still just Ruby code.</p>
 
@@ -270,7 +267,8 @@ Hello, World</p>
 
 <p><strong>Rakefile Fragment</strong></p>
 
-<p>file &#8220;greet.o&#8221; => [&#8220;greet.c&#8221;]</p>
+<pre><code>file "greet.o" =&gt; ["greet.c"]
+</code></pre>
 
 <p>greet.c does include stdio.h, but since that is a system header file and not subject to change (often), we can leave itout of the dependency list.</p>
 
@@ -282,7 +280,8 @@ Hello, World</p>
 
 <p><strong>Rakefile Fragment</strong></p>
 
-<p>file &#8220;hello&#8221; => [&#8220;main.o&#8221;, &#8220;greet.o&#8221;]</p>
+<pre><code>file "hello" =&gt; ["main.o", "greet.o"]
+</code></pre>
 
 <p>Notice that we only have to declare the direct dependencies of hello. Yes, hello depends on main.o which in turn depends on main.c. But the .c files are not directly used in building hello, so they can safely be omitted from the list.</p>
 
@@ -304,20 +303,18 @@ Hello, World</p>
 
 <p><strong>Rakefile</strong></p>
 
-<p> file &#8216;main.o&#8217; => [&#8220;main.c&#8221;, &#8220;greet.h&#8221;] do</p>
+<pre><code> file 'main.o' =&gt; ["main.c", "greet.h"] do
+    sh "cc -c -o main.o main.c"
+ end
 
-<pre><code>sh "cc -c -o main.o main.c"
+ file 'greet.o' =&gt; ['greet.c'] do
+   sh "cc -c -o greet.o greet.c"
+ end
+
+file "hello" =&gt; ["main.o", "greet.o"] do
+  sh "cc -o hello main.o greet.o"
+end
 </code></pre>
-
-<p> end</p>
-
-<p> file &#8216;greet.o&#8217; => [&#8216;greet.c&#8217;] do
-   sh &#8220;cc -c -o greet.o greet.c&#8221;
- end</p>
-
-<p>file &#8220;hello&#8221; => [&#8220;main.o&#8221;, &#8220;greet.o&#8221;] do
-  sh &#8220;cc -o hello main.o greet.o&#8221;
-end</p>
 
 <p><strong>Trying it out</strong></p>
 
@@ -327,11 +324,12 @@ end</p>
 
 <p><strong>Output</strong></p>
 
-<p>$ rake hello
+<pre><code>$ rake hello
   (in /home/jim/pgm/rake/intro)
   cc -c -o main.o main.c
   cc -c -o greet.o greet.c
-  cc -o hello main.o greet.o</p>
+  cc -o hello main.o greet.o
+</code></pre>
 
 <p>The command line rake hello instructs rake to look through its list of tasks and find one called “hello”. It then checks hello’s dependencies and builds them if required. Finally, when everything is ready it builds hello by executing the C compiler command.</p>
 
@@ -343,8 +341,9 @@ end</p>
 
 <p><strong>Output</strong></p>
 
-<p>$ ./hello
-Hello, World</p>
+<pre><code>$ ./hello
+Hello, World
+</code></pre>
 
 <p>Success!</p>
 
@@ -356,14 +355,15 @@ Hello, World</p>
 
 <p><strong>Output</strong></p>
 
-<p>$ emacs greet.c
+<pre><code>$ emacs greet.c
 $ rake hello
 (in /home/jim/pgm/rake/intro)
 cc -c -o greet.o greet.c
 cc -o hello main.o greet.o
 $
 $ ./hello
-Hi, World</p>
+Hi, World
+</code></pre>
 
 <p>Notice that it recompiles greet.c making a new greet.o. And then it needs to relink hello with the new greet.o. Then it is done. There is no need to recompile main.c since it never changed.</p>
 
@@ -375,9 +375,10 @@ Hi, World</p>
 
 <p><strong>Output</strong></p>
 
-<p>$ rake hello
+<pre><code>$ rake hello
 (in /home/jim/pgm/rake/intro)
-$</p>
+$
+</code></pre>
 
 <p>That’s right … nothing. Everything is up to date with its dependencies, so there is no work for Rake to do.</p>
 
