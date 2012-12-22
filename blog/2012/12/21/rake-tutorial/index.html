@@ -168,23 +168,41 @@
 
 <p>比如我有一个非常简单的C程序，有以下一些文件</p>
 
-<pre><code>#include "greet.h"
-int main() {
-    greet ("World");
-    return 0;
-}
+<figure class='code'><figcaption><span>main.c  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="cp">#include &quot;greet.h&quot;</span>
+</span><span class='line'><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">greet</span> <span class="p">(</span><span class="s">&quot;World&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 
-extern void greet(const char * who);
+
+<figure class='code'><figcaption><span>greet.h  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="k">extern</span> <span class="kt">void</span> <span class="n">greet</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="n">who</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
 
-#include &lt;stdio.h&gt;
-void greet (const char * who) {
-    printf ("Hello, %s\n", who);
-}
-</code></pre>
+
+<figure class='code'><figcaption><span>greet.c  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='c'><span class='line'><span class="cp">#include &lt;stdio.h&gt;</span>
+</span><span class='line'><span class="kt">void</span> <span class="nf">greet</span> <span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="n">who</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">printf</span> <span class="p">(</span><span class="s">&quot;Hello, %s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">who</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>(Yes, it really is the old standard “Hello, World” program. I did say we were starting with the basics!)</p>
 
@@ -194,11 +212,17 @@ void greet (const char * who) {
 
 <p>编译并运行这些文件， 使用下面的一个简单的shell脚本</p>
 
-<pre><code>#include &lt;stdio.h&gt;
-void greet (const char * who) {
-    printf ("Hello, %s\n", who);
-}
-</code></pre>
+<figure class='code'><figcaption><span>build.sh  </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#include &lt;stdio.h&gt;</span>
+</span><span class='line'>void greet <span class="o">(</span>const char * who<span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>    <span class="nb">printf</span> <span class="o">(</span><span class="s2">&quot;Hello, %s\n&quot;</span>, who<span class="o">)</span>;
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>For those not familiar with compiling C code, the cc command is the C compiler. It generates an output file (specified by the -o flag) from the source files listed on the command line.</p>
 
@@ -208,10 +232,14 @@ void greet (const char * who) {
 
 <p>运行它之后我们会得到下面这些结果</p>
 
-<pre><code>$ build.sh
-$ ./hello
-Hello, World
-</code></pre>
+<figure class='code'><figcaption><span>output </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ build.sh
+</span><span class='line'>$ ./hello
+</span><span class='line'>Hello, World</span></code></pre></td></tr></table></div></figure>
+
 
 <p><strong>Building C Programs</strong></p>
 
@@ -251,8 +279,10 @@ Hello, World
 
 <p>Rakefile 片段</p>
 
-<pre><code>file "main.o" =&gt; ["main.c", "greet.h"]
-</code></pre>
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">file</span> <span class="s2">&quot;main.o&quot;</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="s2">&quot;main.c&quot;</span><span class="p">,</span> <span class="s2">&quot;greet.h&quot;</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>The rake dependency declaration is just regular Ruby code. We take advantage of the fact that we can construct hash arguments on the fly, and that Ruby doesn’t require parenthesis around the method arguement to create a file task declaration that reads very naturally to the humans reading the rake file. But its still just Ruby code.</p>
 
@@ -264,8 +294,10 @@ Hello, World
 
 <p><strong>Rakefile Fragment</strong></p>
 
-<pre><code>file "greet.o" =&gt; ["greet.c"]
-</code></pre>
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">file</span> <span class="s2">&quot;greet.o&quot;</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="s2">&quot;greet.c&quot;</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>greet.c does include stdio.h, but since that is a system header file and not subject to change (often), we can leave itout of the dependency list.</p>
 
@@ -277,8 +309,10 @@ Hello, World
 
 <p><strong>Rakefile Fragment</strong></p>
 
-<pre><code>file "hello" =&gt; ["main.o", "greet.o"]
-</code></pre>
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">file</span> <span class="s2">&quot;hello&quot;</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="s2">&quot;main.o&quot;</span><span class="p">,</span> <span class="s2">&quot;greet.o&quot;</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>Notice that we only have to declare the direct dependencies of hello. Yes, hello depends on main.o which in turn depends on main.c. But the .c files are not directly used in building hello, so they can safely be omitted from the list.</p>
 
@@ -300,18 +334,30 @@ Hello, World
 
 <p><strong>Rakefile</strong></p>
 
-<pre><code> file 'main.o' =&gt; ["main.c", "greet.h"] do
-    sh "cc -c -o main.o main.c"
- end
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'> <span class="n">file</span> <span class="s1">&#39;main.o&#39;</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="s2">&quot;main.c&quot;</span><span class="p">,</span> <span class="s2">&quot;greet.h&quot;</span><span class="o">]</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">sh</span> <span class="s2">&quot;cc -c -o main.o main.c&quot;</span>
+</span><span class='line'> <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'> <span class="n">file</span> <span class="s1">&#39;greet.o&#39;</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="s1">&#39;greet.c&#39;</span><span class="o">]</span> <span class="k">do</span>
+</span><span class='line'>   <span class="n">sh</span> <span class="s2">&quot;cc -c -o greet.o greet.c&quot;</span>
+</span><span class='line'> <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">file</span> <span class="s2">&quot;hello&quot;</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="s2">&quot;main.o&quot;</span><span class="p">,</span> <span class="s2">&quot;greet.o&quot;</span><span class="o">]</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">sh</span> <span class="s2">&quot;cc -o hello main.o greet.o&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
 
- file 'greet.o' =&gt; ['greet.c'] do
-   sh "cc -c -o greet.o greet.c"
- end
-
-file "hello" =&gt; ["main.o", "greet.o"] do
-  sh "cc -o hello main.o greet.o"
-end
-</code></pre>
 
 <p><strong>Trying it out</strong></p>
 
@@ -321,12 +367,18 @@ end
 
 <p><strong>Output</strong></p>
 
-<pre><code>$ rake hello
-  (in /home/jim/pgm/rake/intro)
-  cc -c -o main.o main.c
-  cc -c -o greet.o greet.c
-  cc -o hello main.o greet.o
-</code></pre>
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>rake hello
+</span><span class='line'>  <span class="o">(</span>in /home/jim/pgm/rake/intro<span class="o">)</span>
+</span><span class='line'>  cc -c -o main.o main.c
+</span><span class='line'>  cc -c -o greet.o greet.c
+</span><span class='line'>  cc -o hello main.o greet.o
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>The command line rake hello instructs rake to look through its list of tasks and find one called “hello”. It then checks hello’s dependencies and builds them if required. Finally, when everything is ready it builds hello by executing the C compiler command.</p>
 
@@ -338,9 +390,12 @@ end
 
 <p><strong>Output</strong></p>
 
-<pre><code>$ ./hello
-Hello, World
-</code></pre>
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>./hello
+</span><span class='line'>Hello, World
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>Success!</p>
 
@@ -352,15 +407,24 @@ Hello, World
 
 <p><strong>Output</strong></p>
 
-<pre><code>$ emacs greet.c
-$ rake hello
-(in /home/jim/pgm/rake/intro)
-cc -c -o greet.o greet.c
-cc -o hello main.o greet.o
-$
-$ ./hello
-Hi, World
-</code></pre>
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>emacs greet.c
+</span><span class='line'><span class="nv">$ </span>rake hello
+</span><span class='line'><span class="o">(</span>in /home/jim/pgm/rake/intro<span class="o">)</span>
+</span><span class='line'>cc -c -o greet.o greet.c
+</span><span class='line'>cc -o hello main.o greet.o
+</span><span class='line'><span class="err">$</span>
+</span><span class='line'><span class="nv">$ </span>./hello
+</span><span class='line'>Hi, World
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>Notice that it recompiles greet.c making a new greet.o. And then it needs to relink hello with the new greet.o. Then it is done. There is no need to recompile main.c since it never changed.</p>
 
@@ -372,10 +436,14 @@ Hi, World
 
 <p><strong>Output</strong></p>
 
-<pre><code>$ rake hello
-(in /home/jim/pgm/rake/intro)
-$
-</code></pre>
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>rake hello
+</span><span class='line'><span class="o">(</span>in /home/jim/pgm/rake/intro<span class="o">)</span>
+</span><span class='line'><span class="err">$</span>
+</span></code></pre></td></tr></table></div></figure>
+
 
 <p>That’s right … nothing. Everything is up to date with its dependencies, so there is no work for Rake to do.</p>
 
