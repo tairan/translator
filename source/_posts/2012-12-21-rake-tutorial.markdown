@@ -73,24 +73,24 @@ Suppose I have a very simple C program consisting of the following files.
 
 比如我有一个非常简单的C程序，有以下一些文件
 
-	{{ codeblock main.c lang:c }}
-	#include "greet.h"
-	int main() {
-	    greet ("World");
-	    return 0;
-	}
-	{{ endcodeblock }}
+{% codeblock main.c lang:c %}
+#include "greet.h"
+int main() {
+    greet ("World");
+    return 0;
+}
+{% endcodeblock %}
 
-	{{ codeblock greet.h lang:c }}
-	extern void greet(const char * who);
-	{{ endcodeblock }}
+{% codeblock greet.h lang:c %}
+extern void greet(const char * who);
+{% endcodeblock %}
 
-	{{ codeblock greet.c lang:c }}
-	#include <stdio.h>
-	void greet (const char * who) {
-	    printf ("Hello, %s\n", who);
-	}
-	{{ endcodeblock }}
+{% codeblock greet.c lang:c %}
+#include <stdio.h>
+void greet (const char * who) {
+    printf ("Hello, %s\n", who);
+}
+{% endcodeblock %}
 
 (Yes, it really is the old standard “Hello, World” program. I did say we were starting with the basics!)
 
@@ -100,12 +100,12 @@ To compile and run this collection of files, a simple shell script like the foll
 
 编译并运行这些文件， 使用下面的一个简单的shell脚本
 
-	{{ codeblock build.sh lang:bash }}
-	#include <stdio.h>
-	void greet (const char * who) {
-	    printf ("Hello, %s\n", who);
-	}
-	{{ endcodeblock }}
+{% codeblock build.sh lang:bash %}
+#include <stdio.h>
+void greet (const char * who) {
+    printf ("Hello, %s\n", who);
+}
+{% endcodeblock %}
 
 For those not familiar with compiling C code, the cc command is the C compiler. It generates an output file (specified by the -o flag) from the source files listed on the command line.
 
@@ -115,11 +115,11 @@ Running it gives us the following results …
 
 运行它之后我们会得到下面这些结果
 
-	{{ codeblock output }}
-	$ build.sh
-	$ ./hello
-	Hello, World
-	{{ endcodeblock }}
+{% codeblock output %}
+$ build.sh
+$ ./hello
+Hello, World
+{% endcodeblock %}
 
 **Building C Programs**
 
@@ -159,9 +159,9 @@ We say that main.o has a dependency on the files main.c and greet.h. We can capt
 
 Rakefile 片段
 
-	{{ codeblock lang:ruby }}
-	file "main.o" => ["main.c", "greet.h"]
-	{{ endcodeblock }}
+{% codeblock lang:ruby %}
+file "main.o" => ["main.c", "greet.h"]
+{% endcodeblock %}
 
 The rake dependency declaration is just regular Ruby code. We take advantage of the fact that we can construct hash arguments on the fly, and that Ruby doesn’t require parenthesis around the method arguement to create a file task declaration that reads very naturally to the humans reading the rake file. But its still just Ruby code.
 
@@ -173,9 +173,9 @@ Likewise, we can declare the dependencies for creating the “greet.o” file as
 
 **Rakefile Fragment**
 
-	{{ codeblock lang:ruby }}
-	file "greet.o" => ["greet.c"]
-	{{ endcodeblock }}
+{% codeblock lang:ruby %}
+file "greet.o" => ["greet.c"]
+{% endcodeblock %}
 
 greet.c does include stdio.h, but since that is a system header file and not subject to change (often), we can leave itout of the dependency list.
 
@@ -187,9 +187,9 @@ Finally we can declare the dependencies for the executable program hello. It jus
 
 **Rakefile Fragment**
 
-	{{ codeblock lang:ruby }}
-	file "hello" => ["main.o", "greet.o"]
-	{{ endcodeblock }}
+{% codeblock lang:ruby %}
+file "hello" => ["main.o", "greet.o"]
+{% endcodeblock %}
 
 Notice that we only have to declare the direct dependencies of hello. Yes, hello depends on main.o which in turn depends on main.c. But the .c files are not directly used in building hello, so they can safely be omitted from the list.
 
@@ -211,21 +211,21 @@ The result looks like this:
 
 **Rakefile**
 
-	{{ codeblock lang:ruby }}
+{% codeblock lang:ruby %}
 
-	 file 'main.o' => ["main.c", "greet.h"] do
-	    sh "cc -c -o main.o main.c"
-	 end
-	    
-	 file 'greet.o' => ['greet.c'] do
-	   sh "cc -c -o greet.o greet.c"
-	 end
-	   
-	file "hello" => ["main.o", "greet.o"] do
-	  sh "cc -o hello main.o greet.o"
-	end
+ file 'main.o' => ["main.c", "greet.h"] do
+    sh "cc -c -o main.o main.c"
+ end
+    
+ file 'greet.o' => ['greet.c'] do
+   sh "cc -c -o greet.o greet.c"
+ end
+   
+file "hello" => ["main.o", "greet.o"] do
+  sh "cc -o hello main.o greet.o"
+end
 
-	{{ endcodeblock }}
+{% endcodeblock %}
 
 **Trying it out**
 
@@ -235,13 +235,13 @@ So, let’s see if it works!
 
 **Output**
 
-	{{ codeblock lang:bash }}
-	$ rake hello
-	  (in /home/jim/pgm/rake/intro)
-	  cc -c -o main.o main.c
-	  cc -c -o greet.o greet.c
-	  cc -o hello main.o greet.o
-	{{ endcodeblock }}
+{% codeblock lang:bash %}
+$ rake hello
+  (in /home/jim/pgm/rake/intro)
+  cc -c -o main.o main.c
+  cc -c -o greet.o greet.c
+  cc -o hello main.o greet.o
+{% endcodeblock %}
 
 The command line rake hello instructs rake to look through its list of tasks and find one called “hello”. It then checks hello’s dependencies and builds them if required. Finally, when everything is ready it builds hello by executing the C compiler command.
 
@@ -253,10 +253,10 @@ Rake诚实的报告了它独自做了什么事情。我们看到build main程序
 
 **Output**
 
-	{{ codeblock lang:bash }}
-	$ ./hello
-	Hello, World
-	{{ endcodeblock }}
+{% codeblock lang:bash %}
+$ ./hello
+Hello, World
+{% endcodeblock %}
 
 Success!
 
@@ -268,16 +268,16 @@ But what happens when we change a file. Lets change the greet function in greet.
 
 **Output**
 
-	{{ codeblock lang:bash }}
-	$ emacs greet.c
-	$ rake hello
-	(in /home/jim/pgm/rake/intro)
-	cc -c -o greet.o greet.c
-	cc -o hello main.o greet.o
-	$
-	$ ./hello
-	Hi, World
-	{{ endcodeblock }}
+{% codeblock lang:bash %}
+$ emacs greet.c
+$ rake hello
+(in /home/jim/pgm/rake/intro)
+cc -c -o greet.o greet.c
+cc -o hello main.o greet.o
+$
+$ ./hello
+Hi, World
+{% endcodeblock %}
 
 Notice that it recompiles greet.c making a new greet.o. And then it needs to relink hello with the new greet.o. Then it is done. There is no need to recompile main.c since it never changed.
 
@@ -289,11 +289,11 @@ What do you think will happend if we run Rake again?
 
 **Output**
 
-	{{ codeblock lang:bash }}
-	$ rake hello
-	(in /home/jim/pgm/rake/intro)
-	$
-	{{ endcodeblock }}
+{% codeblock lang:bash %}
+$ rake hello
+(in /home/jim/pgm/rake/intro)
+$
+{% endcodeblock %}
 
 That’s right … nothing. Everything is up to date with its dependencies, so there is no work for Rake to do.
 
