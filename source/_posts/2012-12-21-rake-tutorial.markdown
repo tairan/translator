@@ -32,7 +32,7 @@ Rake 具有以下特征
 
 - Rake is lightweight. It can be distributed with other projects as a single file. Projects that depend upon rake do not require that rake be installed on target systems.
 
-	Rake 是轻量级的。它可以作为单个文件分发给其他项目。那些使用rake的项目并不强制要求目标系统上安装rake。
+	Rake 是轻量级的。它可以作为单个文件分发给其他项目。那些依赖于rake的项目并不强制要求rake安装在目标系统上。
 
 **Copyright**
 
@@ -307,7 +307,7 @@ Ok, sure. Rake is a bit of overkill for only two source files and a header. But 
 
 What have we learned? Building a Rakefile involves identifying dependencies and the actions required to create the target files. Then declaring the dependencies and actions are as simple as writing them down in standard Ruby code. Rake then handles the details of building
 
-我们学到了什么呢？Build一个Rakefile去识别目标文件的依赖关系和动作并创建它。然后用标准的Ruby代码写下来这些定义的依赖和动作。之后Rake去处理building的细节。
+我们学到了什么呢？创建一个Rakefile，这涉及到识别目标文件的依赖关系和动作, 然后将这些用标准的Ruby代码写到Rakefile中。最后交给Rake去处理building的细节。
 
 #### What’s Up Next ####
 
