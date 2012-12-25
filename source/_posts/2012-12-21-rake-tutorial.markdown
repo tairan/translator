@@ -12,19 +12,19 @@ categories: [Ruby, Rake]
 
 Rake is a build tool, written in Ruby, using Ruby as a build language. Rake is similar to make in scope and purpose. Rake a simple ruby build program with capabilities similar to make.
 
-Rake 是用Ruby写的Build工具，使用Ruby作为Build语言。Rake的目标和适用范围和make类似。Rake是一个具有和make类似功能的简单Ruby程序。
+Rake 是用Ruby写的Build工具，使用Ruby作为Build语言。Rake的目标和适用范围和make类似。Rake是一个简单的Ruby程序和make具有相似的功能。
 
 Rake has the following features:
 
-Rake 具有一下特征
+Rake 具有以下特征
 
 - Rakefiles (rake’s version of Makefiles) are completely defined in standard Ruby syntax. No XML files to edit. No quirky Makefile syntax to worry about (is that a tab or a space?) 
 	
-	Rakefiles (Rake版本的Makefiles) 使用完全的标准Ruby语法定义。不用编辑xml文件。没有Makefile的诡异语法问题比如(Tab和空格)
+	Rakefiles (Rake版本的Makefiles) 完全使用的标准的Ruby语法定义。不用编辑xml文件。没有Makefile的诡异语法问题比如(Tab和空格)
 
 - Users can specify tasks with prerequisites. 
 
-	用户可以指定执行预设的任务
+	用户可以指定执行某个预设的任务
 
 - Rake supports rule patterns to sythesize implicit tasks.
 
@@ -32,7 +32,7 @@ Rake 具有一下特征
 
 - Rake is lightweight. It can be distributed with other projects as a single file. Projects that depend upon rake do not require that rake be installed on target systems.
 
-	Rake 是轻量级的。它可以在单个文件中分布式处理不同的项目。项目依赖在rake上，不强制要求rake安装在目标系统上。
+	Rake 是轻量级的。它可以作为单个文件分发给其他项目。那些使用rake的项目并不强制要求目标系统上安装rake。
 
 **Copyright**
 
@@ -53,13 +53,13 @@ Copyright © 2005, by Jim Weirich, Some rights reserved.
 
 >> I have just started using the excellent Rake tool (thanks, Jim!) and I am at a bit of a loss on how to proceed. I am attempting to 	create unit test for some C++ code I am creating, [...]
 
->> 我正好开始使用Rake工具(感谢Jim), 我花费很多时间去处理。我去创建我为C++代码创建unite test，创建...
+>> 我已经开始使用这个Rake工具(感谢Jim), 我花费很多时间去用它。我试图为我的一些C++代码创建unite test...
 
 Several people recently have made similar comments, they really like rake, but have had trouble getting started. Although the Rake documentation is fairly complete, it really does assume you are familiar with other build tools such as ant and make. It is not really material for the newbie.
 
-很多人都有类似的意见，他们这的很喜欢rake，但是他们不知道怎么上手。通过完整的Rake文档，它真的和你接触到的Build工具是同一家族的，比如ant和make。它也确实不太适合新手。
+最近有很多人都提到类似的意见，他们真的很喜欢rake，但是他们不知道怎么上手。尽管Rake的文档已经很全面了，但它真的是基于你已经接触过Build家族的其他工具，比如ant和make。所以它也确实不太适合新手。
 
-This tutorial is an attempt to adderess this lack. We will start with a very simple problem: Building a Simple C Program.
+This tutorial is an attempt to address this lack. We will start with a very simple problem: Building a Simple C Program.
 
 此指南正是弥补这个不足。我们会从一个简单的问题开始：Building 一个简单的C程序
 
@@ -133,7 +133,7 @@ The following figure illustrates the progression from source files to object fil
 
 Our program is so small that there is little benefit in doing more than the three line build script above. However, as projects grow, there are more and more source files and object files to manage. Recompiling everything for a simple one line change in a single source file gets old quickly. It is much more efficient to just recompile the few files that change and then relink.
 
-我们的程序很小，只用了上面三行build脚本就搞定了。然而，随着项目的增长，这里会有更多的源代码文件和对象文件需要管理。在源码中任意一行代码的更改都需要重新编译所有的东西。它必须只去编译和链接那些更改的文件。
+我们的程序小到以至于只用了三行build脚本就可以搞定。然而，随着项目的增长，这里会有更多的源代码文件和对象文件需要管理。在源码中任意一行代码的更改都需要重新编译所有的东西。它必须只去编译那些更改的文件并重新链接才会更有效。
 
 But how do we know what to recompile? Keeping track of that would be quite error prone if we tried to do that by hand. Here is where Rake become useful.
 
@@ -165,7 +165,7 @@ file "main.o" => ["main.c", "greet.h"]
 
 The rake dependency declaration is just regular Ruby code. We take advantage of the fact that we can construct hash arguments on the fly, and that Ruby doesn’t require parenthesis around the method arguement to create a file task declaration that reads very naturally to the humans reading the rake file. But its still just Ruby code.
 
-rake依赖定义是一个正常的Ruby代码。实际上我们利用hash的参数结构，Ruby不需要括号来包裹方法的参数，创建文件任务定义读起来是那么的自然，可度性很高。 但是它只是Ruby代码。
+rake依赖定义是一个正常的Ruby代码。实际上我们利用了Ruby的hash结构的参数，并且不需要括号来包裹参数，创建文件任务定义读起来是那么的自然，人性化。 但它的确只是Ruby代码。
 
 Likewise, we can declare the dependencies for creating the “greet.o” file as well.
 
@@ -199,7 +199,7 @@ Notice that we only have to declare the direct dependencies of hello. Yes, hello
 
 We have carefully specified how the files are related. Now we need to say what Rake would have to do to build the files when needed.
 
-我们仔细的指定这些文件是如何关联的。现在我们需要说rake是怎么去build这些文件的。
+我们仔细的指出这些文件是如何关联的。现在我们需要告诉你当build这些文件的时候rake是怎么工作的。
 
 This part is pretty simple. The three line build script that we started with contains all the commands needed to build the program. We just need to put those actions with the right set of dependencies. Use a Ruby do / end block to capture actions …
 
@@ -307,7 +307,7 @@ Ok, sure. Rake is a bit of overkill for only two source files and a header. But 
 
 What have we learned? Building a Rakefile involves identifying dependencies and the actions required to create the target files. Then declaring the dependencies and actions are as simple as writing them down in standard Ruby code. Rake then handles the details of building
 
-我们学到了什么？Building一个Rakefile，去识别创建目标文件的依赖关系和动作。然后用标准的Rbuy代码去定义和处理这些依赖和动作。Rake去处理building的细节。
+我们学到了什么呢？Build一个Rakefile去识别目标文件的依赖关系和动作并创建它。然后用标准的Ruby代码写下来这些定义的依赖和动作。之后Rake去处理building的细节。
 
 #### What’s Up Next ####
 
