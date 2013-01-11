@@ -6,8 +6,6 @@ comments: true
 categories: [Ruby, Rake]
 ---
 
-**PREVIEW**
-
 [Rake Tutorial](http://docs.rubyrake.org/tutorial/chapter02.html)
 
 ##Chapter 2—Managing Files with FileLists##
@@ -20,9 +18,9 @@ Handling Common Actions
 
 > Rake 是一个用来控制build的工具。在此指南的这部分，我们去看如何组织Rake动作并应用到相似的任务中去。
 
-> In the previous chapter, we talked about the basics of specifying dependencies and associating a ctions to build the files. We ended up with a nice Rakefile that built our simple C program, but with some duplication in the build rules.
+> In the previous chapter, we talked about the basics of specifying dependencies and associating actions to build the files. We ended up with a nice Rakefile that built our simple C program, but with some duplication in the build rules.
 
-> 在前一个章节中，我们谈论了关于构建Rakefile TODO:. 最后我们有了一个不错的用来build我们简单的C程序的Rakefile，但是在build规则中有一些重复。
+> 在前一个章节中，我们谈论了关于去构建Rakefile用到特定依赖和关联行为的基本知识。最后我们有了一个不错的用来build我们简单的C程序的Rakefile，但是在build规则中有一些重复。
 
 But First, Some Extra Rake Targets
 
@@ -40,11 +38,11 @@ task :default => ["hello"]
 
 Until now, the only kind of task we have seen in Rake are file tasks. File tasks are knowledgable about time stamps on files. A file task will not execute its action unless the file it represents doesn’t exist, or is older than any of its prerequisites.
 
-直到现在，我们的Rakefile中有了一个唯一的task. File tasks 对于文件的时间戳是很在行的. 除非文件它代表着不存在，否则文件任务不会执行这个动作, 或者比它要求的时间更旧。 
+直到现在，在Rake中我们看到的唯一的任务类型是file tasks。File tasks很擅长于文件上的时间戳处理。 除非file task代表它不存在，或者比它要求的时间更旧，否则file task不会执行这个动作。
 
 A non-file task (or just plain “task”) does not represent the creation of a file. Since there is no timestamp for comparison, non-file tasks always execute their actions (if they have any). Since the default task does not represent a file named “default”, we use a regular non-file task for this purpose. Non-file tasks just use the task keyword (instead of the file keyword).
 
-一个非文件任务(就叫“task”) 没有创建文件。自从这里没有时间戳用来比对，非文件任务总是执行这些动作(如果它有的话)。默认的任务不代表一个叫“default”的文件，我们使用一个非文件任务的规则为这个意图。
+一个非文件任务(或只是简单的“task”) 并不代表创建一个文件。因为这里没有时间戳用来比对，所以非文件任务总是执行这些动作(如果它有的话)。默认的任务不代表一个叫“default”的文件，为了这个目的，我们使用一个非文件任务。非文件任务只是用任务关键字。（替代file关键字）
 
 Here are a couple of other really useful tasks that I almost always include in a Rakefile.
 
@@ -59,16 +57,16 @@ clean:
 clobber:
 	Remove **all** files generated during the build process.
 
-彻底清理:
+clobber:
 	移除所有在build过程期间生成的文件。
 
 clean tidies up the directories and removes any files that generated as part of the build process, but are not the final goal of the build process. For example, the .o files used to link up the final executable hello program would fall in this category. After the executable program is built, the .o files are no longer needed and will be removed by saying “rake clean”.
 
-clean tidies ... of the build process, 但是不是build流程最终的目标结果。例如： .o 文件用来link最终的可执行程序。 在可执行程序build完成之后，.o 文件就不再需要，把它们移除掉可以称为"rake clean"。
+整理目录，并且清理在build处理期间生成的文件，但不是build流程最终的目标结果。例如： 用来link最终可执行程序的.o 文件都归为这类。 在可执行程序build完成之后，.o 文件就不再需要了，把它们移除掉可以称为"rake clean"。
 
 clobber is like clean, but even more aggressive. “rake clobber” will remove all files that are not part of the original package. It should return a project to the “just checked out of CVS” state. So it removes the final executable program as well as the files removed by clean.
 
-colbber类似清理，but even more aggressive. "rake colbber"会移除所有不是原包中的所有文件。它会回到“刚刚从cvs中checkout”的状态。因此它会移除最终的可执行程序。
+colbber类似clean，但是更具有侵略性. "rake colbber"会移除所有不是原包中的所有文件。它会回到“刚刚从cvs中checkout”的状态。因此它会做clean相关的移除外还会删除最终的可执行程序。
 
 In fact, these tasks are so common, Rake comes with a predefined library that implements clean and clobber.
 
@@ -88,7 +86,7 @@ File Lists to the Rescue
 
 A file list is simply a list of file names. Since a lot of what Rake does involves files and lists of those files, a file list has some special features to make manipulating file names rather easy.
 
-文件列表是一个简单的文件名字的列表。Rake去调用的那些文件的列表，一个文件列表有一些特征去make manipulating file names rather easy.
+文件列表是一个简单的文件名字的列表。因为Rake做的很多事情是调用文件和那些文件的列表，所以这个文件列表具有一些特征使处理文件名更容易。
 
 Suppose you want a list of all the C files in your project. You could add this to your rake file:
 
@@ -106,7 +104,7 @@ This will collect all the files ending in ”.c” in the top level directory of
 
 By the way, no matter where you invoke it, rake always executes in the directory where the Rakefile is found. This keeps your path names consistent without depending on the current directory the user interactive shell.
 
-By the way, no matter where you invoke it, rake总是在Rakefile所在的目录中执行。这会保证你在shell中不会依赖当前目录。
+顺便提一下, 无论你在什么地方调用它, rake总是在Rakefile所在的目录中执行。这能保证你在shell中不会依赖当前目录。
 
 The clean and clobber tasks use file lists to manage the files to remove. So if we want to clean up all the .o files in a project we could try …
 
@@ -130,7 +128,7 @@ Dynamically Building Tasks
 
 The command to compile the main.c and greet.c files is identical, except for the name of the files involved. The simpliest and most direct way to address the problem is to define the compile task in a loop. Perhaps something like this …
 
-编译 main.c 和 greet.c 文件的命令是独立的， 除了文件名被调用。更简单和更直接的方式去定位问题是在一个循环中定义编译任务。示例
+编译 main.c 和 greet.c 文件的命令是完全一致的，除了被调用的文件名。最简单直接的方式去处理这个问题是在一个循环中定义编译任务。示例
 
 Rakefile Fragment
 
@@ -146,19 +144,19 @@ end
 
 Just a couple things to note about the above code.
 
-提示下上面代码做的一些事情
+关于上面的代码仅有两个需要注意的地方。
 
 - The dependencies are not specified. This is a common where we specify the dependents at one place and the actions in another. Rake is smart enough to combine the dependencies with the actions.
 
-- 依赖没有指定。我们会在另一个动作中去指定公共依赖部分。Rake足够的智能去绑定这些动作的依赖。
+- 依赖没有指定。这种在一个地方定义指定依赖另一个地方执行是一种普遍现象，Rake具有足够的智能去绑定这些依赖关系和行为。
 
 - Although the task was named after the .o (which is, after all, what we want to generate), the file list is defined in terms of the .c files. Why?
 
-- 尽管任务 was named after the .o (which is ...), 为什么文件列表使用 .c 去定义？
+- 尽管任务使用 .o 来命名 (毕竟这些是我们想去生成的东西), 但是文件列表依照 .c 去定义，为什么呢？
 
 The simple reason is that file lists search for file names that exist in the file system. We have no guarantee that the .o files even exist at this point (indeed, the will not after invoking the clean task). The .c are source and will always be there.
 
-一个简单的理由是文件列表在文件系统中搜索已经存在的文件的文件名。We have no guarantee ...(indeed...). .c作为源代码总是存在。
+一个简单的理由是文件列表在文件系统中搜索已经存在的文件的文件名。我们不能保证.o文件是一直存在的.(确实，在调用clean任务后就会没有了). .c作为源代码总是存在。
 
 Rake Can Automatically Generate Tasks
 
@@ -170,7 +168,7 @@ Defining tasks in a loop is pretty cool, but is really not needed in a number of
 
 For example, we can capture the above logic in a single rule … no need to find all the source files and iterate through them.
 
-示例，我们可以拿上面的逻辑放在一个单个规则中。 不需要查找所有的源代码并迭代处理。
+示例，我们可以按照一个单个的规则来捕获上面的逻辑。 不需要查找所有的源代码并迭代处理。
 
 Rakefile Fragment
 
@@ -186,11 +184,11 @@ The above rule says that if you want to generate a file ending in .o, then you i
 
 t.name is the name of the task, and in file based tasks will be the name of the file we are trying to generate. t.source is the name of the source file, i.e. the one that matches the second have of the rule pattern. t.source is only valid in the body of a rule.
 
-t.name 是任务的名称，在基于文件的任务会作为我们试图生成的文件名称。 t.source 是一个源文件的名字，i.e. the one that matches ... of the rule pattern. t.source 在规则中唯一有效的。
+t.name 是任务的名称，在文件任务中，我们会尝试以文件的名称来命名生成的文件。 t.source 是其源文件的名字，i.e. the one that matches the second have of the rule pattern. t.source 在规则中唯一有效的。
 
 Rules are actually much more flexible than you are led to believe here. But that’s an advanced topic that we will save for another day.
 
-规则实际上可以做的比你想象的更多。但是那是高级话题，我们会在以后再说。
+规则实际上可以做的比你想象中的更加灵活。但是那是高级话题，我们会在以后再说。
 
 Final Rakefile
 
