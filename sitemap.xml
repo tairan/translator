@@ -25,11 +25,17 @@
         <lastmod>2013-01-13T19:24:38+08:00</lastmod>
     </url>
     <url>
+        <loc>
+            http://tairan.github.com/translator/blog/2013/01/27/how-to-use-git-over-an-http-proxy/
+        </loc>
+        <lastmod>2013-01-27T20:54:55+08:00</lastmod>
+    </url>
+    <url>
         <loc>http://tairan.github.com/translator/</loc>
-        <lastmod>2013-01-13T19:24:38+08:00</lastmod>
+        <lastmod>2013-01-27T20:54:55+08:00</lastmod>
     </url>
     <url>
         <loc>http://tairan.github.com/translator/blog/archives/</loc>
-        <lastmod>2013-01-13T19:24:38+08:00</lastmod>
+        <lastmod>2013-01-27T20:54:55+08:00</lastmod>
     </url>
 </urlset>

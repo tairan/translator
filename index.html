@@ -9,7 +9,7 @@
   <meta name="author" content="Tairan Wang">
 
   
-  <meta name="description" content="国内的网络通畅形势越来越严峻，网络被重置、无法访问的情况时有发生。而网络基础协议之一的DNS使用加密连接也成为必须的选择。OpenDNS就提供了一种对DNS进行加密的解决方案:DNSCrypt。这篇文章就是翻译其对DNSCrypt的介绍。 原文链接 Introducing DNSCrypt ( &hellip;">
+  <meta name="description" content="如何使用socat让git通过HTTP代理 Corporate firewalls and proxy typically block both of these (and often a lot more); here&#8217;s how to get around them. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -76,6 +76,212 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/translator/blog/2013/01/27/how-to-use-git-over-an-http-proxy/">How to Use Git Over an HTTP Proxy, With Socat</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-01-27T18:22:00+08:00" pubdate data-updated="true">Jan 27<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>如何使用<code>socat</code>让<code>git</code>通过HTTP代理</p>
+
+<p>Corporate firewalls and proxy typically block both of these (and often a lot more); here&#8217;s how to get around them.</p>
+
+<p>企业防火墙和代理通常会阻止它们(通常还有很多)，这里则是教你如何绕过它们。</p>
+
+<p>If you&#8217;re tracking a public repo, you will need to use the &#8220;git&#8221; protocol, because the &#8220;http&#8221; protocol is not very efficient, and/or requires some special handling on the server side. If you&#8217;re pushing code to a public repo, you definitely need to use the &#8220;ssh&#8221; protocol.</p>
+
+<p>如果你在跟踪一个公共的仓库，你需要使用git协议，因为http协议不是很有效，在服务器端一些特殊的处理。如果你推送代码到公共的仓库，你一定要使用ssh协议。</p>
+
+<h2>a word about socat</h2>
+
+<p>I will be using &#8220;socat&#8221;, an absolute corker of a program that does so many things it&#8217;s incredible! Other people use corkscrew, ssh-https-tunnel, etc., which are all specialised for just one purpose. I prefer socat, and once you spend the 2-3 years :-) needed to read the man page, you will see why!</p>
+
+<p>我会使用&#8221;socat&#8221;， 一个绝对的程序corker能做这么多事情，是多么难以置信的！ 其他人使用 <code>corkscrew</code>, <code>ssh-https-tunnel</code>等。这些工具都只有一个目的。我喜欢socat，一旦你花上个2-3年去读它的手册，你就会明白的。</p>
+
+<p>The basic idea is that you will somehow invoke socat, which will negotiate with the HTTP(S) proxy server using the CONNECT method to get you a clean pipe to the server on the far side.</p>
+
+<p>一个基本的思想是你会如何调用socat，它会和https代理服务进行交涉，使用一个连接方法给你一个干净的管道在远端服务器。</p>
+
+<p>However, do note that socat does have one disadvantage: the passwords to your proxy server are visible in to local users running <code>ps -ef</code> or something. I don&#8217;t care since I don&#8217;t have anyone else logging into my desktop, and the ability to use a program I already have anyway (socat) is more important.</p>
+
+<p>然而，注意socat确实有个缺点: 在本地用户运行<code>ps -ef</code> or 其他的什么的时候，你代理服务器的密码是可见的。我不在乎，我知道没其他人登录到我的桌面电脑，并且我已经在任何地方都有一个程序（socat）是如此的重要。</p>
+
+<h2>proxying the git protocol</h2>
+
+<p>When I want to download a public repo, I just type</p>
+
+<p>当我想要下载一个公共仓库的时候，我只要输入</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>proxied_git clone ...repo...
+</span><span class='line'>proxied_git pull
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>and so on, instead of</p>
+
+<p>替代下面的</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git clone ...repo...
+</span><span class='line'>git pull
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Here&#8217;s the how and why of it.</p>
+
+<p>这里你会知道为什么这样做</p>
+
+<p>To proxy the git protocol, you need to export an environment variable called <code>GIT_PROXY_COMMAND</code>, which contains the command that is to be invoked. I have a shell function in my <code>.bashrc</code> that looks like this:</p>
+
+<p>要代理<code>git</code>协议，你需要一个环境变量<code>GIT_PROXY_COMMAND</code>, 它包含了需要被调用的命令。我把它写在了 <code>.bashrc</code> 中，如下</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>proxied_git <span class="o">()</span>
+</span><span class='line'><span class="o">(</span>
+</span><span class='line'>    <span class="nb">export </span><span class="nv">GIT_PROXY_COMMAND</span><span class="o">=</span>/tmp/gitproxy;
+</span><span class='line'>
+</span><span class='line'>    cat  &gt; <span class="nv">$GIT_PROXY_COMMAND</span> <span class="s">&lt;&lt;EOF</span>
+</span><span class='line'><span class="s">#!/bin/bash</span>
+</span><span class='line'><span class="s">/usr/bin/socat - PROXY:172.25.149.2:\$1:\$2,proxyport=3128</span>
+</span><span class='line'><span class="s">EOF</span>
+</span><span class='line'>    chmod +x <span class="nv">$GIT_PROXY_COMMAND</span>;
+</span><span class='line'>
+</span><span class='line'>    git <span class="s2">&quot;$@&quot;</span>
+</span><span class='line'><span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Possible variations are:</p>
+
+<p>可能的变化</p>
+
+<ul>
+<li>you could give <code>/tmp/gitproxy</code> a more permanent name and remove the middle pararaph completely. I don&#8217;t do this because that&#8217;s too small a file to bother with; it just seems cleaner this way)</li>
+<li>你可以给 <code>/tmp/gitproxy</code> 一个永久的名称并移除中间部分。我没有做这个因为这只是一个很小的文件，这个方法似乎也很清洁。</li>
+<li>you could permanently set the environment variable if all your git repos are remote (very unlikely)</li>
+<li>如果你的git仓库都在远端，你可以永久的设置一个环境变量(不太可能)</li>
+</ul>
+
+
+<p>One thing you cannot do is to roll the entire socat command into the environment variable. Git passes the host and port as two arguments to the proxy command, but socat expects them in the syntax you see above, so you will need to wrap it in a script as I have done. I guess you could argue that this is a point in favour of corkscrew etc. ;-)</p>
+
+<p>一个事情是你不能做的就是roll整个socat命令到环境变量里。git通过host和port作为代理命令的两个参数，但是socat期望它们在你在上面看到的语法，所以你会需要使用一个脚本去包装它。我想你可能会说这点是corkscrew常用的等。</p>
+
+<h2>proxying the ssh protocol</h2>
+
+<p>The git protocol is handled directly by git (duh!), but if you use the ssh protocol, it invokes ssh explicitly (again, duh!).</p>
+
+<p>git协议是由git直接处理的，但是如果你使用ssh协议，它会调用ssh。</p>
+
+<p>Ssh already has this sort of stuff built-in, so you simply add a few lines to your <code>~/.ssh/config</code></p>
+
+<p>ssh 通常都会内置，所以你仅需要在你的 <code>~/.ssh/config</code> 中加入几行</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='apache'><span class='line'><span class="nb">host</span> gh
+</span><span class='line'>    <span class="nb">user</span> git
+</span><span class='line'>    <span class="nb">hostname</span> github.com
+</span><span class='line'>    <span class="nb">port</span> <span class="m">22</span>
+</span><span class='line'>    <span class="nb">proxycommand</span> socat - PROXY:your.proxy.ip:%h:%p,proxyport=3128,proxyauth=user:pwd
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now you can just say (for example):</p>
+
+<p>现在你可以这样使用</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git clone gh:sitaramc/git-notes.git
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>ssh proxy using corkscrew instead of socat</h3>
+
+<p>ssh代理使用corkscrew替代socat</p>
+
+<p>download and install <a href="http://www.agroman.net/corkscrew/">corkscrew</a></p>
+
+<p>下载并安装<a href="http://www.agroman.net/corkscrew/">corkscrew</a></p>
+
+<p>create a file (eg., <code>~/.ssh/myauth</code>) and put your http proxy username and password as <code>"username:password"</code> in it and save it.
+safeguard the file</p>
+
+<p>创建一个文件(比如<code>~/.ssh/myauth</code>)并输入你的http代理的用户名和密码，格式为<code>"username:password"</code>，然后保存。修改它的权限</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>chmod 600 ~/.ssh/myauth
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>open <code>~/.ssh/config</code> and add the following entry, adding an explicit path to corkscrew if needed.</p>
+
+<p>打开 <code>~/.ssh/config</code> 并且增加下面的一些代码，如果需要的话，给scorkscrew一个完整的路径。</p>
+
+<figure class='code'> <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='apache'><span class='line'><span class="nb">host</span> gh
+</span><span class='line'>    <span class="nb">user</span> git
+</span><span class='line'>    <span class="nb">hostname</span> github.com
+</span><span class='line'>    <span class="nb">port</span> <span class="m">22</span>
+</span><span class='line'>    <span class="nb">proxycommand</span> corkscrew your.proxy.ip <span class="m">3128</span> %h %p ~/.ssh/myauth
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>extra coolness for github</h3>
+
+<p>Noting that many corporate firewalls block access to the CONNECT method on ports other than 443, the good folks at github have an ssh server listening on 443 if you use the host <code>"ssh.github.com"</code>, so you can replace the hostname and the port in the above ssh config stanza as appropriate, and you&#8217;re all set</p>
+
+<p>很多防火墙会阻挡443端口的连接，作为一个github的好公民，如果你使用<code>"ssh.github.com"</code>，需要又一个ssh服务器去监听443端口， 那么你可以替换这个主机名和端口号在ssh config中，好了，搞定。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1316,6 +1522,10 @@ forever</li>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/translator/blog/2013/01/27/how-to-use-git-over-an-http-proxy/">How to use git over an HTTP proxy, with socat</a>
+      </li>
+    
+      <li class="post">
         <a href="/translator/blog/2013/01/13/introducing-dnscrypt/">Introducing DNSCrypt</a>
       </li>
     
@@ -1329,10 +1539,6 @@ forever</li>
     
       <li class="post">
         <a href="/translator/blog/2012/12/15/how-emacs-changed-my-life/">How Emacs changed my life</a>
-      </li>
-    
-      <li class="post">
-        <a href="/translator/blog/2012/12/08/devdiv-tfs-database-sizes/">DevDiv TFS Database Sizes</a>
       </li>
     
   </ul>
