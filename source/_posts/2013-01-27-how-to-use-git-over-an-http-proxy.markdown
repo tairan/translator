@@ -6,6 +6,8 @@ comments: true
 categories: 
 ---
 
+[原文链接](http://sitaramc.github.com/tips/git-over-proxy.html)
+
 如何使用```socat```让```git```通过HTTP代理
 
 Corporate firewalls and proxy typically block both of these (and often a lot more); here's how to get around them.
